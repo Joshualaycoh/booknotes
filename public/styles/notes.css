@@ -1,0 +1,49 @@
+body {
+    box-sizing: border-box;
+}
+
+.container {
+    height: 100vh;
+    padding: 50px;
+    
+}
+
+.cover {
+    text-align: justify;
+    height: auto;
+    max-height: 300px;
+
+}
+
+.detail {
+    text-align: justify;
+    height: auto;
+   
+}
+
+.notes {
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    text-align: justify;
+}
+
+@media only screen and (max-width: 768px) {
+    
+
+
+    .container {
+        width: 100%;
+        padding: 20px;
+        
+        
+    }
+
+    .detail {
+        padding: 0 !important;
+    }
+
+    .notes {
+        padding: 0 !important;
+    }
+}
