@@ -14,26 +14,118 @@ body,h1,h2,h3,h4,h5,h6 {
     font-family: "Karma", sans-serif
 }
 
+h3 {
+    font-size: 30px;
+    color: #660066;
+    text-decoration: underline;
+}
+
+
+
+small {
+    font-size: 17px;
+    font-weight: 500;
+    color: #666666;
+}
+
+p {
+    font-size: 22px;
+}
+
 .w3-bar-block .w3-bar-item {
     padding:20px
 }
 
+.tab-view {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    font-size: 0;
+    text-align: left;
+  }
+  .tab-view > input {
+    position: absolute;
+    display: none;
+  }
+  .tab-view > label {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.1s;
+    -o-transition: all 0.1s;
+    -ms-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -webkit-transition: all 0.1s;
+  }
+
 @media only screen and (max-width: 768px) {
     img{
-        width: 90%;
+        width: 90% !important;
         height: 550px !important;
     } 
+   
+}
 
-    p {
-        font-size: 15px;
-        text-align: center;
+@media only screen and (max-width: 1400px) {
+  
+    .w3-top {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+   
+}
+
+@media only screen and (min-width: 992px) {
+  
+   .detail {
+       padding-left: 30px;
+   }
+}
+
+@media only screen and (min-width: 1400px) {
+  
+    .cover {
+        height:225px ;
+        width: 195px;
+    }
+   
+}
+
+@media only screen and (min-width: 768px){
+  
+    .bookcover {
+     max-height: 275px !important;
     }
 
-    h3 {
-        font-size: 28px;
-        text-align: center;
+
+   
+}
+
+@media only screen and (max-width: 500px){
+  
+    .w3-top {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
+
+
+    .contain {
+        width: 100vw !important;
+       
+        padding-left: 25px;
+        padding-right: 25px;
+        
+    }
+
+    main {
+        padding-left: 10px !important;
+    }
    
 }
 

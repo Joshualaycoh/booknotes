@@ -1,0 +1,38 @@
+<%- include("partials/header.ejs") %>
+
+  <div class="container" style="margin-top: 50px;" >
+    <h1>Create New</h1>
+    <form action="/create" method="POST">
+        <div class="form-group">
+            <label for="title">Title and Author:</label>
+            <input type="text" class="form-control" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="rating">Book Rating:</label>
+            <select class="form-control" name="rating" id="rating" required >
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
+          </div>
+        <div class="form-group">
+            <label for="overview">Overview</label>
+            <textarea class="form-control" id="overview" name="overview" style="height: 150px;" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea class="form-control" name="notes" id="notes"  style="margin-bottom: 15px;height: 150px;" required ></textarea>
+          </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+   </div>
+
+
+<%- include("partials/footer.ejs") %>

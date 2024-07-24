@@ -2,61 +2,21 @@
 
 <div class="row " style="margin:150px 15px;">
 
-    <div class="col-lg-3 col-md-6 col-12 ">
+<% for(let note of title) {%>
+    <div class="col-lg-3 col-md-6 col-12 " style="margin-bottom: 20px;">
         <img src="https://covers.openlibrary.org/b/isbn/0385472579-L.jpg" alt="alchemist" style="width:100%;height: 369px;">
-        <h3>The Perfect Sandwich, A Real NYC Classic</h3>
-        <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
+        
+        <form class="tab-view tab-view-height-auto" action="/book" method="post" >
+        <input  type="submit" name="booknotes" value="<%= note.id %>" id="<%= note.id %>">
+        <label for="<%= note.id %>" > <h3><%= note.book_title %></h3> </label>
+        </form>
+        <small>How strongly I recommend it: <strong><%= note.rating %></strong>/10</small>
+        <p style="margin:10px 0px 30px 0px;" ><%= note.overview %></p>
+        
     </div>
-    
-    <div class="col-lg-3 col-md-6 col-12 ">
-        <img src="/images/dislike.webp" alt="dislike" style="width:100%;height:369px;">
-        <h3>The Perfect Sandwich, A Real NYC Classic</h3>
-        <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-
-    
-    <div class="col-lg-3 col-md-6 col-12 ">
-        <img src="/images/ego.webp" alt="ego" style="width:100%;height: 369px;">
-        <h3>The Perfect Sandwich, A Real NYC Classic</h3>
-        <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-
-    
-    <div class="col-lg-3 col-md-6 col-12 ">
-        <img src="/images/ikigai.jpg" alt="ikigai" style="width:100%;height: 369px;">
-        <h3>The Perfect Sandwich, A Real NYC Classic</h3>
-        <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
+<%} %>
 
 </div>
-
-<div class="row " style="margin:105px 50px;">
-
-    <div class="col-lg-3 col-md-6 col-12 ">
-        <img src="/images/morrie.jpg" alt="morrie" style="width:100%;height:369px;">
-        <h3>The Perfect Sandwich, A Real NYC Classic</h3>
-        <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-    
-    <div class="col-lg-3 col-md-6 col-12 ">
-        <img src="/images/power.jpg" alt="power" style="width:100%;height: 369px;">
-        <h3>The Perfect Sandwich, A Real NYC Classic</h3>
-        <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-
-    
-    <div class="col-lg-3 col-md-6 col-12 ">
-        <img src="/images/richdad.jpg" alt="richdad" style="width:100%;height: 369px;">
-        <h3>The Perfect Sandwich, A Real NYC Classic</h3>
-        <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
-
-    
-    <div class="col-lg-3 col-md-6 col-12 ">
-        <img src="/images/think.jpg" alt="think" style="width:100% !important;height: 369px;">
-        <h3>The Perfect Sandwich, A Real NYC Classic</h3>
-        <p>Just some random text, lorem ipsum text praesent tincidunt ipsum lipsum.</p>
-    </div>
 
 
 
@@ -69,7 +29,7 @@
       <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
     </div>
 
-</div>
+
 
 <div class="container" style="text-align: center;margin-bottom: 100px !important;">
     <h3>About me</h3>

@@ -8,17 +8,21 @@ body {
     
 }
 
-.cover {
-    text-align: justify;
-    height: auto;
-    max-height: 300px;
 
-}
 
 .detail {
     text-align: justify;
     height: auto;
    
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
 }
 
 .notes {
@@ -28,14 +32,17 @@ body {
     text-align: justify;
 }
 
+.form-group {
+    margin-bottom: 5px;
+}
+
 @media only screen and (max-width: 768px) {
     
 
 
     .container {
         width: 100%;
-        padding: 20px;
-        
+ 
         
     }
 
@@ -47,3 +54,4 @@ body {
         padding: 0 !important;
     }
 }
+
