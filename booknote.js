@@ -23,7 +23,7 @@ let titles = [];
 
 async function checkNotes() {
   const result = await db.query(
-    "SELECT notes, rating, book_title, overview FROM notes JOIN title ON title.id=title_id WHERE title_id=$1",
+    "SELECT * FROM notes JOIN title ON title.id=title_id WHERE title_id=$1 ORDER BY note_id",
   [currentBookId]
   );
   const booknote = result.rows;
@@ -47,9 +47,10 @@ app.get("/", async(req, res) => {
 
 app.get("/notes", async(req, res) => {
   const booknote = await checkNotes();
-  console.log(booknote)
+ 
   res.render("notes.ejs",{
-   booknote: booknote
+   booknote: booknote,
+ 
   });
 })
 
@@ -62,8 +63,7 @@ app.get("/about",(req, res) => {
 })
 
 
-app.post("/book", async(req, res) => {
-  console.log(req.body);
+app.post("/book", async(req, res) => {;
   const booknotes = req.body.booknotes;
   if (booknotes) {
     currentBookId = req.body.booknotes;
@@ -107,6 +107,36 @@ app.post("/add", async(req,res) => {
   res.redirect("/notes")
 
 })
+
+app.post("/deleteBook", async(req, res) => {
+  const deletedID = req.body.deletebook;
+  await db.query("DELETE FROM title WHERE id=$1",
+    [deletedID]
+  );
+  res.redirect("/")
+})
+
+app.post("/modify", async(req,res) => {
+  const deletePara = req.body.deletePara;
+  await db.query("DELETE FROM notes WHERE note_id=$1",
+    [deletePara]
+  );
+
+  res.redirect("/notes")
+})
+
+app.post("/updatePara", async(req, res) => {
+  const item = req.body.updatedItemTitle;
+  const id = req.body.updatedItemId;
+
+  try{
+  await db.query("UPDATE notes SET notes = $1 WHERE note_id = $2", [item, id]);
+    res.redirect("/notes")
+  }catch (err){
+   console.log(err);
+  }
+})
+
 
 
 app.listen(port, () => {

@@ -25,6 +25,16 @@ p {
     unicode-bidi: isolate;
 }
 
+.editInput {
+    border: 1 solid #666666;
+    width: 600px;
+    height: 35px;
+    outline: note;
+    font-size: large;
+    padding-right: 10px;
+    margin-top: 20px;
+}
+
 .notes {
     box-sizing: border-box;
     width: 100%;
