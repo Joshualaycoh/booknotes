@@ -36,7 +36,7 @@ async function getCurrentBook() {
   return titles.find((title) => title.id == currentBookId);
 }
 
-app.get("/", async(req, res) => {
+app.get("/index", async(req, res) => {
  
   const currentBooks = await getCurrentBook();
   res.render("index.ejs",{
@@ -74,8 +74,6 @@ app.post("/book", async(req, res) => {;
 })
 
 app.post("/create", async(req,res) => {
-  const currentBooks = await getCurrentBook();
-  const booknote = await checkNotes();
   const title = req.body.title;
   const rating = req.body.rating;
   const overview = req.body.overview;
@@ -93,7 +91,7 @@ app.post("/create", async(req,res) => {
     [notes, id]
   );
  
-  res.redirect("/")
+  res.redirect("/index")
 
 })
 
@@ -113,7 +111,7 @@ app.post("/deleteBook", async(req, res) => {
   await db.query("DELETE FROM title WHERE id=$1",
     [deletedID]
   );
-  res.redirect("/")
+  res.redirect("/index")
 })
 
 app.post("/modify", async(req,res) => {

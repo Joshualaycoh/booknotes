@@ -76,6 +76,10 @@ p {
     margin-top: -60px;
 }
 
+.coverLabel:hover {
+    background-color: rgba(141, 143, 146, 0.5) ; 
+}
+
 .input-file {
     display: none;
 }
