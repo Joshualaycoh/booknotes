@@ -1,0 +1,40 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1f1;
+}
+
+body,h1,h2,h3,h4,h5,h6 {
+    font-family: "Karma", sans-serif
+}
+
+
+.login {
+    background-color: rgb(255, 255, 255);
+    padding: 60px;
+    width: 450px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 5px;
+}
+
+input {
+    margin-bottom: 2px;
+}
+
+.card-body {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.card-body:hover {
+    background-color: #f1f1f1f1;
+}
