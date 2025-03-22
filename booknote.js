@@ -7,6 +7,8 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import GoogleStrategy from "passport-google-oauth2";
 import env from "dotenv";
+import multer from "multer";
+import path from "path";
 
 const app = express();
 const port = 3000;
@@ -23,21 +25,35 @@ const db = new pg.Client({
 
 db.connect();
 
+const storage = multer.diskStorage({
+  destination:'./public/images',
+  filename: (req, file, cb) => {
+    return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+  }
+})
+
+const upload = multer({
+  storage: storage,   
+  limits: {
+    fileSize:10000000
+  }
+})
+
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(session({
 secret:"TOPSECRETWORD",
 resave: false,
 saveUninitialized: true,
 cookie : {
-  maxAge: 1000 * 60 * 60 * 24
-}
-})
+  maxAge: 1000 * 60 * 60 * 24 }
+ })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use('/profile', express.static('public/images'));
 
 let currentBookId = 1;
 let currentUserId = 2;
@@ -84,20 +100,17 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/index", async(req, res) => {
- console.log(req.user.users_id)
-   currentUserId = req.user.users_id;
+  console.log(req.user.users_id)
+  currentUserId = req.user.users_id;
 
   if (req.isAuthenticated) {
   const currentBooks = await getCurrentBook();
   res.render("index.ejs",{
     titles: titles,
-    details: currentBooks,
   });
 } else {
-  req.redirect("/login")
+  res.redirect("/login")
 }
-
-
 
 });
 
@@ -108,7 +121,7 @@ app.get("/notes", async(req, res) => {
    booknote: booknote,
   });
 } else {
-  req.redirect("/login")
+  res.redirect("/login")
 }
 })
 
@@ -116,7 +129,7 @@ app.get("/create",(req, res) => {
   if (req.isAuthenticated) {
   res.render("create.ejs")
   } else {
-  req.redirect("/login")
+  res.redirect("/login")
   }
 })
 
@@ -124,7 +137,7 @@ app.get("/about",(req, res) => {
   if (req.isAuthenticated) {
   res.render("about.ejs")
    } else {
-  req.redirect("/login")
+  res.redirect("/login")
   }
 })
 
@@ -139,6 +152,15 @@ app.get("/auth/google/index", passport.authenticate("google",{
 })
 );
 
+
+app.get("/update",async (req, res) => {
+  if (req.isAuthenticated) {
+  const booknote = await checkNotes();
+  res.render("update.ejs", {booknote:booknote})
+  } else {
+  res.redirect("/login")
+  }
+})
 
 app.post("/login", passport.authenticate("local",{
  successRedirect: "/index",
@@ -157,15 +179,18 @@ app.post("/book", async(req, res) => {;
   }
 })
 
-app.post("/create", async(req,res) => {
+
+app.post("/create", upload.single('profile'), async(req,res) => {
+  const profile =  req.file.filename;
+
   const title = req.body.title;
   const rating = req.body.rating;
   const overview = req.body.overview;
   const notes = req.body.notes;
 
   const result = await db.query(
-    "INSERT INTO title (book_title, rating, overview, user_id) VALUES($1,$2,$3,$4) RETURNING id",
-  [title, rating, overview, req.user.users_id]
+    "INSERT INTO title (book_title, rating, overview,profile, user_id) VALUES($1,$2,$3,$4,$5) RETURNING id",
+  [title, rating, overview, profile, req.user.users_id]
   );
 
  const id = result.rows[0].id;
@@ -178,6 +203,7 @@ app.post("/create", async(req,res) => {
   res.redirect("/index")
 
 })
+
 
 app.post("/add", async(req,res) => {
   const notes = req.body.addNote;
@@ -207,10 +233,51 @@ app.post("/modify", async(req,res) => {
   res.redirect("/notes")
 })
 
+app.post("/editDetails", async(req, res) => {
+  const id = req.body.updatedDetailsId;
+  const title = req.body.editTitle;
+  const rating = req.body.editRating;
+  const overview = req.body.editOverview;
+  
+
+  try{
+    await db.query("UPDATE title SET book_title = $1, rating = $2, overview = $3 WHERE id = $4", 
+    [title, rating, overview, id]
+  );
+    res.redirect("/notes")
+  }catch (err){
+   
+  }
+})
+
+app.post("/changePhoto", upload.single('profile'), async(req,res) => {
+  const profile =  req.file.filename;
+  const id = req.body.updatedPhotoID;
+  try {
+  await db.query("UPDATE title SET profile = $1 WHERE id = $2",
+    [profile, id]
+   )
+   res.redirect("/notes")
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+app.post("/change", async(req, res) => {
+  console.log(req.body.changePhoto);
+  const booknote = await checkNotes();
+ if (req.body.changePhoto === "change") { 
+  res.render("update.ejs",{booknote:booknote})
+ } else {
+  res.redirect("/notes")
+ }
+
+})
+
 app.post("/updatePara", async(req, res) => {
   const item = req.body.updatedItemTitle;
   const id = req.body.updatedItemId;
-
+  
   try{
   await db.query("UPDATE notes SET notes = $1 WHERE note_id = $2", [item, id]);
     res.redirect("/notes")
@@ -320,6 +387,17 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((user, cb) => {
   cb(null, user);
 });
+
+function errHandler(err, req, res, next) {
+  if (err instanceof multer.MulterError) {
+    res.json({
+      success:0,
+      message: err.message
+    })
+  }
+} 
+
+app.use(errHandler)
 
 app.listen(port, () => {
   console.log(`Server running from port ${port}`);

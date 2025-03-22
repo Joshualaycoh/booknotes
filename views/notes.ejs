@@ -1,98 +1,150 @@
 <%- include("partials/header.ejs") %>
 
-
-
-    <div class="row contain"  style="margin-top: 150px;padding-left: 25px;padding-right: 25px;" >
-        <div class="col-lg-3 col-md-4 col-sm-12 cover d-flex justify-content-start" style="padding:10px 0px 0px 0px;" >
-            <img class="bookcover" src="https://covers.openlibrary.org/b/isbn/0385472579-L.jpg" alt="book alchemist" style="width: 100%;max-height:430px;" >
+<div class="container mt-5 px-3">
+    <div class="row">
+        <% booknote.forEach(function(note, index) { %>
+        <% if (index === 0) { %>
+        <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
+            <div class="card border-0 shadow-sm">
+                <img src="/images/<%= note.profile %>" alt="<%= note.book_title %>" class="card-img-top rounded" style="height: 430px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <form action="/change" method="post">
+                        <input type="submit" name="changePhoto" value="change" id="change" class="d-none">
+                        <label for="change" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#changePhotoModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 20 20">
+                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"></path>
+                            </svg> Change Cover
+                        </label>
+                    </form>
+                </div>
+            </div>
         </div>
 
-        <div class="col-lg-9 col-md-8 col-sm-12 detail"  style="padding-top: 0%;"  >
-          
-            <% booknote.forEach(function(note, index) { %>
-                <% if (index === 0) { %>
-                    <h3 style="font-size: 40px;color: #000000;text-decoration: none;text-align: start;"><%=note.book_title %></h3>
-        
-            <small>How strongly I recommend it: <strong><%= note.rating %></strong>/10</small>
-            <p><i><%= note.overview %></i></p>
-            <% } %>
-            <% }) %>
-      
+        <div class="col-lg-9 col-md-12 col-sm-12">
+            <h3 id="titleAuthor<%= note.note_id %>" class="display-4 fw-bold mb-3"><%= note.book_title %></h3>
+            <small id="rating<%= note.note_id %>" class="text-muted d-block mb-3">How strongly I recommend it: <strong><%= note.rating %></strong>/10</small>
+            <p id="overview<%= note.note_id %>" class="lead text-muted"><i><%= note.overview %></i></p>
+            <form action="/editDetails" method="post">
+                <input type="hidden" name="updatedDetailsId" value="<%= note.id %>">
+                <input id="input1<%=note.note_id%>" class="form-control mb-2" type="text" name="editTitle" value="<%= note.book_title %>" hidden>
+                <input id="input2<%=note.note_id%>" class="form-control mb-2" type="text" name="editRating" value="<%= note.rating %>" hidden>
+                <input id="input3<%=note.note_id%>" class="form-control mb-2" type="text" name="editOverview" value="<%= note.overview %>" hidden>
+                <button id="doneEdit<%=note.note_id%>" type="submit" hidden class="btn btn-outline-primary">Save Changes</button>
+            </form>
+            <button id="editDetails<%=note.note_id%>" onclick="titleHandler('<%=note.note_id%>')" class="btn btn-outline-secondary btn-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"></path>
+                </svg>
+            </button>
         </div>
+        <% } %>
+        <% }) %>
+    </div>
+</div>
 
-        <div class="col-lg-12 col-md-12 col-sm-12 notes " style="padding-left: 0%; margin-top: 30px;" >
-            <h2>My Notes</h2> 
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title mb-4">My Notes</h2>
             <% booknote.forEach(function(note) { %>
-            <div class="container d-flex flex-column align-items-start" style="padding: 0;height: max-content;gap: 3px;">
-                    <p id="title<%=note.note_id%>" style="margin-bottom: 0;" ><%= note.notes%></p>
-                 
-                    <div class="container d-flex" style="padding: 0;height: fit-content;" >
-                       
-                    <form action="/updatePara" method="post" style="outline: none;" >  
-                            <input type="hidden" name="updatedItemId" value="<%= note.note_id %>">
-                            <input id="input<%=note.note_id%>" class="editInput" type="text" name="updatedItemTitle" value="<%= note.notes %>" autocomplete="off"
-                              autofocus="true" hidden="true" />
-
-                            <button id="done<%=note.note_id%>" type="submit" hidden  class="btn btn-outline-secondary" style="height: 22.2px;width: 22.19px;padding: 0;margin-bottom: 1px;margin-right: 3px;" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16"><path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0"/><path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708"/></svg>
-                            </button>
-                        </form>  
-                            <button  id="edit<%=note.note_id%>" onclick="handler('<%=note.note_id%>')" class="btn btn-outline-secondary" style="height: 22.2px;width: 22.19px;padding: 0;" >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"></path></svg>
-                                <span class="visually-hidden">Button</span>
-                            </button>
-                     
-                        <form action="/modify" method="post">
-                            <button type="submit" id="delete<%=note.note_id%>" name="deletePara" value="<%= note.note_id %>" class="btn btn-outline-secondary" style="height: 22.2px;width: 22.19px;padding: 0;" >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path></svg><span class="visually-hidden">Button</span>
-                            </button>
-                        </form>
-                  
-                    </div> 
+            <div class="d-flex flex-column border-bottom pb-3 mb-3">
+                <p id="title<%=note.note_id%>" class="mb-2"><%= note.notes %></p>
+                <div class="d-flex gap-2">
+                    <form action="/updatePara" method="post">
+                        <input type="hidden" name="updatedItemId" value="<%= note.note_id %>">
+                        <input id="input<%=note.note_id%>" class="form-control mb-2" type="text" name="updatedItemTitle" value="<%= note.notes %>" hidden>
+                        <button id="done<%=note.note_id%>" type="submit" hidden class="btn btn-outline-secondary btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
+                                <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0"/>
+                                <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708"/>
+                            </svg>
+                        </button>
+                    </form>
+                    <button id="edit<%=note.note_id%>" onclick="handler('<%=note.note_id%>')" class="btn btn-outline-secondary btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"></path>
+                        </svg>
+                    </button>
+                    <form action="/modify" method="post">
+                        <button type="submit" id="delete<%=note.note_id%>" name="deletePara" value="<%= note.note_id %>" class="btn btn-outline-secondary btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
             </div>
             <% }) %>
         </div>
-    <div class="container" style="width: 100%;padding-left: 10px;padding-right: 10px;" >
-        <form action="/add" method="POST">
-            <div class="form-group">
-              <label for="addNote">Add Notes</label>
-              <textarea class="form-control" name="addNote" id="note"  style="margin-bottom: 15px;height: 100px;"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Post</button>
-        </form>
-      
-        <form action="/deleteBook" method="post">
-        <div class="d-grid gap-2 col-12 mx-auto" style="margin-top: 100px;" >
+    </div>
+</div>
+
+<div class="container my-5">
+    <form action="/add" method="POST" class="mb-5">
+        <div class="mb-3">
+            <label for="note" class="form-label fw-bold">Add Notes</label>
+            <textarea class="form-control" name="addNote" id="note" rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Post</button>
+    </form>
+
+    <form action="/deleteBook" method="post">
+        <div class="d-grid">
             <% booknote.forEach(function(note, index) { %>
             <% if (index === 0) { %>
-            <button class="btn btn-danger" name="deletebook" value="<%= note.title_id%>" type="submit" >Delete This Book</button>
+            <button class="btn btn-danger btn-lg" name="deletebook" value="<%= note.title_id %>" type="submit">Delete This Book</button>
             <% } %>
-            <%}) %>
+            <% }) %>
         </div>
-        </form>
+    </form>
+</div>
 
-
-    </div>
-
-   
-
-
-
-
-
-
-   <script>
+<script>
     function handler(note_id) {
-        document.getElementById("title" + note_id).setAttribute("hidden", true)
-        document.getElementById("edit" + note_id).setAttribute("hidden", true)
-        document.getElementById("delete" + note_id).setAttribute("hidden", true)
-        document.getElementById("done" + note_id).removeAttribute("hidden")
-        document.getElementById("input" + note_id).removeAttribute("hidden")
-      }
-    </script>
+        document.getElementById("title" + note_id).hidden = true;
+        document.getElementById("edit" + note_id).hidden = true;
+        document.getElementById("delete" + note_id).hidden = true;
+        document.getElementById("done" + note_id).hidden = false;
+        document.getElementById("input" + note_id).hidden = false;
+    }
 
+    function titleHandler(note_id) {
+        document.getElementById("titleAuthor" + note_id).hidden = true;
+        document.getElementById("rating" + note_id).hidden = true;
+        document.getElementById("overview" + note_id).hidden = true;
+        document.getElementById("editDetails" + note_id).hidden = true;
+        document.getElementById("doneEdit" + note_id).hidden = false;
+        document.getElementById("input1" + note_id).hidden = false;
+        document.getElementById("input2" + note_id).hidden = false;
+        document.getElementById("input3" + note_id).hidden = false;
+    }
+</script>
 
-
-
-
+<div class="modal fade" id="changePhotoModal" tabindex="-1" aria-labelledby="changePhotoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Book Cover</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <% booknote.forEach(function(note, index) { %>
+                <% if (index === 0) { %>
+                <form action="/changePhoto" method="post" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <img src="/images/<%= note.profile %>" alt="avatar logo" id="coverImg" class="img-fluid rounded" style="height: 400px; object-fit: cover;">
+                        <label for="profile-pic" class="btn btn-primary mt-3">Choose File</label>
+                        <input type="file" class="form-control d-none" name="profile" id="profile-pic" accept="image/jpg, image/png, image/jpeg">
+                        <input type="hidden" name="updatedPhotoID" value="<%= note.id %>">
+                    </div>
+                    <button type="submit" class="btn btn-success">Save Photo</button>
+                </form>
+                <% } %>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</div>
 
 <%- include("partials/footer.ejs") %>

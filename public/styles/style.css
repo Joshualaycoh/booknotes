@@ -1,141 +1,45 @@
-* {
-    box-sizing: border-box;
+
+.navbar {
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 0.5rem 1rem; /* Compact padding */
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
+.navbar-logo {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700; /* Bold */
+    color: #1877f2; /* Meta's blue color */
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-body,h1,h2,h3,h4,h5,h6 {
-    font-family: "Karma", sans-serif
+.navbar-logo:hover {
+    color: #1659c5; /* Darker blue on hover */
 }
 
-h3 {
-    font-size: 30px;
-    color: #660066;
-    text-decoration: underline;
+.navbar-nav .nav-link {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 500; /* Medium */
+    color: #333333; /* Dark gray */
+    margin: 0 0.75rem; /* Spacing between links */
+    padding: 0.5rem 1rem; /* Padding for clickable area */
+    border-radius: 8px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.login {
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+.navbar-nav .nav-link:hover {
+    background-color: #f0f2f5; /* Light gray background on hover */
+    color: #1877f2; /* Meta's blue color */
 }
 
-.register {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.navbar-toggler {
+    border: none; /* Remove border */
+    padding: 0.5rem; /* Padding for better click area */
 }
 
-small {
-    font-size: 17px;
-    font-weight: 500;
-    color: #666666;
+.navbar-toggler:focus {
+    box-shadow: none; /* Remove focus outline */
 }
-
-p {
-    font-size: 22px;
-}
-
-.w3-bar-block .w3-bar-item {
-    padding:20px
-}
-
-.tab-view {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: none;
-    font-size: 0;
-    text-align: left;
-  }
-  .tab-view > input {
-    position: absolute;
-    display: none;
-  }
-  .tab-view > label {
-    position: relative;
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: none;
-    cursor: pointer;
-    transition: all 0.1s;
-    -o-transition: all 0.1s;
-    -ms-transition: all 0.1s;
-    -moz-transition: all 0.1s;
-    -webkit-transition: all 0.1s;
-  }
-
-@media only screen and (max-width: 768px) {
-    img{
-        width: 90% !important;
-        height: 550px !important;
-    } 
-   
-}
-
-@media only screen and (max-width: 1400px) {
-  
-    .w3-top {
-        padding-left: 40px;
-        padding-right: 40px;
-    }
-   
-}
-
-@media only screen and (min-width: 992px) {
-  
-   .detail {
-       padding-left: 30px;
-   }
-}
-
-@media only screen and (min-width: 1400px) {
-  
-    .cover {
-        height:225px ;
-        width: 195px;
-    }
-   
-}
-
-@media only screen and (min-width: 768px){
-  
-    .bookcover {
-     max-height: 275px !important;
-    }
-
-
-   
-}
-
-@media only screen and (max-width: 500px){
-  
-    .w3-top {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-
-
-    .contain {
-        width: 100vw !important;
-       
-        padding-left: 25px;
-        padding-right: 25px;
-        
-    }
-
-    main {
-        padding-left: 10px !important;
-    }
-   
-}
-
 

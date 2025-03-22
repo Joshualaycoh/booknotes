@@ -1,53 +1,46 @@
 <%- include("partials/header.ejs") %>
 
-<div class="row " style="margin:150px 15px;">
-
-<% for(let note of titles) {%>
-    <div class="col-lg-3 col-md-6 col-12 " style="margin-bottom: 20px;">
-        <img src="https://covers.openlibrary.org/b/isbn/0385472579-L.jpg" alt="alchemist" style="width:100%;height: 369px;">
-        
-        <form class="tab-view tab-view-height-auto" action="/book" method="post" >
-        <input  type="submit" name="booknotes" value="<%= note.id %>" id="<%= note.id %>">
-        <label for="<%= note.id %>" > <h3><%= note.book_title %></h3> </label>
-        </form>
-        <small>How strongly I recommend it: <strong><%= note.rating %></strong>/10</small>
-        <p style="margin:10px 0px 30px 0px;" ><%= note.overview %></p>
-        
+<div class="container mt-5">
+    <div class="row">
+        <% for(let note of titles) { %>
+        <div class="col-lg-3 col-md-6 col-12 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="/images/<%= note.profile %>" alt="<%= note.book_title %>" class="card-img-top" style="height: 300px; object-fit: cover;">
+                <div class="card-body">
+                    <h4 class="card-title"><%= note.book_title %></h4>
+                    <small class="text-muted d-block mb-2">Rating: <strong><%= note.rating %></strong>/10</small>
+                    <p class="card-text text-muted" style="font-size: 0.9rem; line-height: 1.5; max-height: 80px; overflow: hidden; text-overflow: ellipsis;"><%= note.overview %></p>
+                    <form action="/book" method="post">
+                        <button type="submit" name="booknotes" value="<%= note.id %>" class="btn btn-primary w-100">Read More</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <% } %>
     </div>
-<%} %>
-
 </div>
 
-
-
-    <div class="col-12 d-flex justify-content-center " style="margin-top: 50px;">
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
-      <a href="#" class="w3-bar-item w3-black w3-button">1</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">2</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">3</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">4</a>
-      <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
-    </div>
-
-
-
-<div class="container" style="text-align: center;margin-bottom: 100px !important;">
-    <h3>About me</h3>
-    <div class="coverphoto"  >
-<img src="/images/me.jpg" alt="author image" style="width:400px;height: auto !important;margin: 5px 0px 60px 0px; " >
-</div>
-<h4><b>I am Joshua Homo! </b></h4>
-<h6> <i> Sometimes I have a Passion For, Good Books</i></h6>
-<p>Just me, myself and I, exploring the universe of unknownment. I have a heart of love and an interest of lorem ipsum and mauris neque quam blog. I want to share my world with you. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-
+<div class="col-12 d-flex justify-content-center my-5">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">«</a></li>
+            <li class="page-item"><a class="page-link active" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">»</a></li>
+        </ul>
+    </nav>
 </div>
 
-
-
-
-
-
-
-
+<!-- <div class="container text-center my-5">
+    <h3 class="mb-4">About Me</h3>
+    <img src="/images/me.jpg" alt="author image" class="img-fluid rounded-circle shadow mb-3" style="width: 200px;">
+    <h4 class="mb-3"><b>I am Joshua Homo!</b></h4>
+    <h6 class="mb-4"><i>Sometimes I have a Passion For Good Books</i></h6>
+    <p class="text-muted" style="font-size: 1rem; line-height: 1.8;">
+        Just me, myself, and I, exploring the universe of books. I want to share my world with you. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.
+    </p>
+</div> -->
 
 <%- include("partials/footer.ejs") %>

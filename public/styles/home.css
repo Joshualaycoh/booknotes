@@ -1,0 +1,116 @@
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: #f8f9fa;
+  color: #333;
+}
+.hero-section {
+  background: url('/images/banner-1.png') no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  position: relative;
+}
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+.hero-content h1 {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.hero-content p {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+}
+.hero-content .btn {
+  font-size: 1.2rem;
+  padding: 10px 25px;
+  margin: 0 10px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+.hero-content .btn-primary {
+  background: #007bff;
+  border: none;
+}
+.hero-content .btn-primary:hover {
+  background: #0056b3;
+}
+.hero-content .btn-outline-light {
+  border: 2px solid #fff;
+  color: #fff;
+}
+.hero-content .btn-outline-light:hover {
+  background: #fff;
+  color: #333;
+}
+.features-section {
+  padding: 60px 0;
+  background: #fff;
+}
+.features-section h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+  text-align: center;
+}
+.feature-card {
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+.feature-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.feature-card h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.feature-card p {
+  font-size: 1rem;
+  color: #555;
+}
+.footer {
+  background: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  .hero-content p {
+    font-size: 1.2rem;
+  }
+  .features-section h2 {
+    font-size: 2rem;
+  }
+  .feature-card {
+    margin-bottom: 15px;
+  }
+}

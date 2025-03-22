@@ -1,40 +1,85 @@
-
-* {
-    box-sizing: border-box;
-}
-
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    font-family: 'Arial', sans-serif;
+    background: #f8f9fa url('/images/banner-1.png') no-repeat center center/cover;
+    color: #333;
     height: 100vh;
     margin: 0;
-    padding: 0;
-    background-color: #f1f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
-body,h1,h2,h3,h4,h5,h6 {
-    font-family: "Karma", sans-serif
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
 }
 
+.login-container, .register-container {
+    width: 400px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
 
-.login {
-    background-color: rgb(255, 255, 255);
-    padding: 60px;
-    width: 450px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+.login-container h2, .register-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #007bff;
+}
+
+.form-outline .form-control {
     border-radius: 5px;
 }
 
-input {
-    margin-bottom: 2px;
+.btn-primary {
+    background: #007bff;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
 }
 
-.card-body {
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+.btn-primary:hover {
+    background: #0056b3;
 }
 
-.card-body:hover {
-    background-color: #f1f1f1f1;
+.google-login, .google-register {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.google-login a, .google-register a {
+    background: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.google-login a:hover, .google-register a:hover {
+    background: #f0f0f0;
+}
+
+.google-login svg, .google-register svg {
+    margin-left: 10px;
+}
+
+.account-link {
+    text-align: center;
+    margin-top: 10px;
 }
