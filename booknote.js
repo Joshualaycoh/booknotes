@@ -17,6 +17,9 @@ env.config();
 
 const db = new pg.Client({
   connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, // Necessary for Render's SSL
+  },
 });
 
 db.connect();
@@ -46,6 +49,7 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24,
   },
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
