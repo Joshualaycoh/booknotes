@@ -97,6 +97,35 @@
     </form>
 </div>
 
+<form id="changePhotoForm" action="/changePhoto" method="post" enctype="multipart/form-data" style="display: none;">
+    <input type="hidden" name="updatedPhotoID" value="">
+    <input type="file" name="profile" id="profile-pic-hidden" accept="image/jpg, image/png, image/jpeg">
+</form>
+
+<div class="modal fade" id="changePhotoModal" tabindex="-1" aria-labelledby="changePhotoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Book Cover</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <% booknote.forEach(function(note, index) { %>
+                <% if (index === 0) { %>
+                <img src="/images/<%= note.profile %>" alt="avatar logo" id="coverImg" class="img-fluid rounded" style="height: 400px; object-fit: cover;">
+                <label for="profile-pic-hidden" class="btn btn-primary mt-3">Choose File</label>
+                <input type="hidden" name="updatedPhotoID" value="<%= note.id %>">
+                <% } %>
+                <% }) %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="savePhotoBtn">Save Photo</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function handler(note_id) {
         document.getElementById("title" + note_id).hidden = true;
@@ -123,14 +152,15 @@
         const savePhotoBtn = document.getElementById('savePhotoBtn');
         const changePhotoForm = document.getElementById('changePhotoForm');
         const profilePicInput = document.getElementById('profile-pic-hidden');
-        const updatedPhotoIDInput = document.querySelector('#changePhotoForm input[name="updatedPhotoID"]');
+        const updatedPhotoID = document.querySelector('#changePhotoForm input[name="updatedPhotoID"]');
         const coverImageModal = document.getElementById('coverImg');
         const mainCoverImage = document.getElementById('mainCoverImg'); // New: Get the main image
 
         if (changeCoverButton && savePhotoBtn && changePhotoForm && profilePicInput && updatedPhotoIDInput && coverImageModal && mainCoverImage) {
-            changeCoverButton.addEventListener('click', function() {
-                // Modal opens automatically due to data-bs-target
-            });
+            // Remove or comment out this block if not needed for custom logic
+            // changeCoverButton.addEventListener('click', function() {
+            //     // Modal opens automatically due to data-bs-target
+            // });
 
             profilePicInput.addEventListener('change', function() {
                 if (this.files && this.files[0]) {
@@ -190,3 +220,7 @@
             });
         }
     });
+
+</script>
+
+<%- include("partials/footer.ejs") %>
