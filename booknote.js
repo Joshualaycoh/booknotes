@@ -241,23 +241,29 @@ app.post("/changePhoto", upload.single('profile'), async (req, res) => {
   res.redirect("/notes");
 });
 
-app.get("/update", async (req, res) => {
-  if (req.isAuthenticated()) {
-    const booknote = await checkNotes();
-    res.render("update.ejs", { booknote: booknote });
-  } else {
-    res.redirect("/login");
-  }
-});
-
+// app.get("/update", async (req, res) => {
+//   if (req.isAuthenticated()) {
+//     const booknote = await checkNotes();
+//     res.render("update.ejs", { booknote: booknote });
+//   } else {
+//     res.redirect("/login");
+//   }
+// });
 app.post("/change", async (req, res) => {
   const booknote = await checkNotes();
-  if (req.body.changePhoto === "change") {
-    res.render("update.ejs", { booknote: booknote });
-  } else {
+  
     res.redirect("/notes");
-  }
+  
 });
+
+// app.post("/change", async (req, res) => {
+//   const booknote = await checkNotes();
+//   if (req.body.changePhoto === "change") {
+//     res.render("update.ejs", { booknote: booknote });
+//   } else {
+//     res.redirect("/notes");
+//   }
+// });
 
 app.post("/updatePara", async (req, res) => {
   const item = req.body.updatedItemTitle;
