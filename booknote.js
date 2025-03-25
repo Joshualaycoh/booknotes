@@ -67,14 +67,6 @@ async function checkNotes() {
   return result.rows;
 }
 
-async function getCurrentBook() {
-  const result = await db.query(
-    "SELECT * FROM title JOIN users ON users.users_id=user_id WHERE users_id=$1",
-    [currentUserId]
-  );
-  titles = result.rows;
-  return titles.find((title) => title.users_id == currentBookId);
-}
 
 async function getCurrentBook() {
   const result = await db.query(
