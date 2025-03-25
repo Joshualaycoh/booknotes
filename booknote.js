@@ -239,24 +239,30 @@ app.post("/editDetails", async (req, res) => {
   res.redirect("/notes");
 });
 
-app.post("/changePhoto", upload.single('profile'), async (req, res) => {
-  const profile = req.file.filename;
-  const id = req.body.updatedPhotoID;
 
-  await db.query("UPDATE title SET profile = $1 WHERE id = $2",
-    [profile, id]
-  );
-  res.redirect("/notes");
-});
+app.post('/changePhoto', upload.single('profile'), async (req, res) => {
+  try {
+    const { updatedPhotoID } = req.body; // The book ID
+    const profile = req.file.filename; // Uploaded file name
 
-app.post("/change", async (req, res) => {
-  const booknote = await checkNotes();
-  if (req.body.changePhoto === "change") {
-    res.render("update.ejs", { booknote: booknote });
-  } else {
-    res.redirect("/notes");
+    await db.query(
+      'UPDATE title SET profile = $1 WHERE id = $2',
+      [profile, updatedPhotoID]
+    );
+
+    res.redirect('back'); // Redirect back to the same page
+  } catch (error) {
+    console.error('Error updating cover photo:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
+
+
+app.post('/change', (req, res) => {
+  // Process the change request here
+  res.redirect('back'); // Redirects back to the same page
+});
+
 
 app.post("/updatePara", async (req, res) => {
   const item = req.body.updatedItemTitle;
