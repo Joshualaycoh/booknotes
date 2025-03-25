@@ -50,7 +50,6 @@ app.use(session({
   },
 }));
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/profile', express.static('public/images'));
@@ -70,13 +69,12 @@ async function checkNotes() {
 
 async function getCurrentBook() {
   const result = await db.query(
-    "SELECT * FROM title JOIN users ON users.users_id=user_id WHERE users_id=$1 ORDER BY title.id DESC", // Order by id descending
+    "SELECT * FROM title JOIN users ON users.users_id=user_id WHERE users_id=$1",
     [currentUserId]
   );
-  titles = result.rows; // Store the ordered books
-  return titles; // Return the books ordered from latest to oldest
+  titles = result.rows;
+  return titles.find((title) => title.users_id == currentBookId);
 }
-
 
 // Routes
 app.get("/", (req, res) => {
@@ -105,7 +103,7 @@ app.get("/index", async (req, res) => {
     currentUserId = req.user.users_id;
     const currentBooks = await getCurrentBook();
     res.render("index.ejs", {
-      titles: titles, // Sorted titles are passed here
+      titles: titles,
     });
   } else {
     res.redirect("/login");
