@@ -8,14 +8,11 @@
             <div class="card border-0 shadow-sm">
                 <img src="/images/<%= note.profile %>" alt="<%= note.book_title %>" class="card-img-top rounded" style="height: 430px; object-fit: cover;">
                 <div class="card-body text-center">
-                    <form action="/change" method="post">
-                        <input type="submit" name="changePhoto" value="change" id="change" class="d-none">
-                        <label for="change" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#changePhotoModal">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 20 20">
-                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"></path>
-                            </svg> Change Cover
-                        </label>
-                    </form>
+                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#changePhotoModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 20 20">
+                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"></path>
+                        </svg> Change Cover
+                    </button>
                 </div>
             </div>
         </div>
@@ -80,25 +77,36 @@
     </div>
 </div>
 
-<div class="container my-5">
-    <form action="/add" method="POST" class="mb-5">
-        <div class="mb-3">
-            <label for="note" class="form-label fw-bold">Add Notes</label>
-            <textarea class="form-control" name="addNote" id="note" rows="5"></textarea>
-        </div>
-        <button type="submit" class="btn btn-success">Post</button>
-    </form>
+<form id="changePhotoForm" action="/changePhoto" method="post" enctype="multipart/form-data" style="display: none;">
+    <input type="hidden" name="updatedPhotoID" value="">
+    <input type="file" name="profile" id="profile-pic-hidden" accept="image/jpg, image/png, image/jpeg">
+</form>
 
-    <form action="/deleteBook" method="post">
-        <div class="d-grid">
-            <% booknote.forEach(function(note, index) { %>
-            <% if (index === 0) { %>
-            <button class="btn btn-danger btn-lg" name="deletebook" value="<%= note.title_id %>" type="submit">Delete This Book</button>
-            <% } %>
-            <% }) %>
+<div class="modal fade" id="changePhotoModal" tabindex="-1" aria-labelledby="changePhotoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Book Cover</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <% booknote.forEach(function(note, index) { %>
+                <% if (index === 0) { %>
+                <img src="/images/<%= note.profile %>" alt="avatar logo" id="coverImg" class="img-fluid rounded" style="height: 400px; object-fit: cover;">
+                <label for="profile-pic-hidden" class="btn btn-primary mt-3">Choose File</label>
+                <input type="hidden" name="updatedPhotoID" value="<%= note.id %>">
+                <% } %>
+                <% }) %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="savePhotoBtn">Save Photo</button>
+            </div>
         </div>
-    </form>
+    </div>
 </div>
+
+<%- include("partials/footer.ejs") %>
 
 <script>
     function handler(note_id) {
@@ -119,32 +127,77 @@
         document.getElementById("input2" + note_id).hidden = false;
         document.getElementById("input3" + note_id).hidden = false;
     }
-</script>
 
-<div class="modal fade" id="changePhotoModal" tabindex="-1" aria-labelledby="changePhotoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Change Book Cover</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <% booknote.forEach(function(note, index) { %>
-                <% if (index === 0) { %>
-                <form action="/changePhoto" method="post" enctype="multipart/form-data">
-                    <div class="mb-4">
-                        <img src="/images/<%= note.profile %>" alt="avatar logo" id="coverImg" class="img-fluid rounded" style="height: 400px; object-fit: cover;">
-                        <label for="profile-pic" class="btn btn-primary mt-3">Choose File</label>
-                        <input type="file" class="form-control d-none" name="profile" id="profile-pic" accept="image/jpg, image/png, image/jpeg">
-                        <input type="hidden" name="updatedPhotoID" value="<%= note.id %>">
-                    </div>
-                    <button type="submit" class="btn btn-success">Save Photo</button>
-                </form>
-                <% } %>
-                <% }) %>
-            </div>
-        </div>
-    </div>
-</div>
+    document.addEventListener('DOMContentLoaded', function() {
+        const changeCoverButton = document.querySelector('[data-bs-target="#changePhotoModal"]');
+        const savePhotoBtn = document.getElementById('savePhotoBtn');
+        const changePhotoForm = document.getElementById('changePhotoForm');
+        const profilePicInput = document.getElementById('profile-pic-hidden');
+        const updatedPhotoIDInput = document.querySelector('#changePhotoForm input[name="updatedPhotoID"]');
+        const coverImage = document.getElementById('coverImg');
 
-<%- include("partials/footer.ejs") %>
+        if (changeCoverButton && savePhotoBtn && changePhotoForm && profilePicInput && updatedPhotoIDInput && coverImage) {
+            changeCoverButton.addEventListener('click', function() {
+                // When the "Change Cover" button is clicked, the modal
+                // is already triggered by the data-bs-target attribute
+                // so no specific action needed here to open it.
+            });
+
+            profilePicInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        coverImage.src = e.target.result;
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+
+            savePhotoBtn.addEventListener('click', function() {
+                const fileInput = document.getElementById('profile-pic-hidden');
+                const file = fileInput.files[0];
+                const bookId = updatedPhotoIDInput.value;
+
+                if (!file) {
+                    alert('Please select an image to upload.');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('profile', file);
+                formData.append('updatedPhotoID', bookId);
+
+                fetch('/changePhoto', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Optionally, you can update the image source immediately
+                        // This might not be necessary if the server response includes the new image URL
+                        // and you handle it in the success case.
+                        // You might need to fetch the updated data from the server
+                        // to get the new image name and update the src.
+                        console.log('Cover photo updated successfully!');
+                        // Close the modal after successful upload
+                        const modal = document.getElementById('changePhotoModal');
+                        if (modal) {
+                            const modalInstance = bootstrap.Modal.getInstance(modal);
+                            if (modalInstance) {
+                                modalInstance.hide();
+                            }
+                        }
+                        // Optionally, you can trigger a page reload or update the image on the page
+                        // location.reload();
+                    } else {
+                        console.error('Failed to update cover photo.');
+                        alert('Failed to update cover photo. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during cover photo update:', error);
+                    alert('An error occurred while updating the cover photo.');
+                });
+            });
+        }
+    });
