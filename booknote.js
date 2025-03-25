@@ -67,6 +67,14 @@ async function checkNotes() {
   return result.rows;
 }
 
+async function getCurrentBook() {
+  const result = await db.query(
+    "SELECT * FROM title JOIN users ON users.users_id=user_id WHERE users_id=$1",
+    [currentUserId]
+  );
+  titles = result.rows;
+  return titles.find((title) => title.users_id == currentBookId);
+}
 
 async function getCurrentBook() {
   const result = await db.query(
@@ -76,6 +84,7 @@ async function getCurrentBook() {
   titles = result.rows; // Store the ordered books
   return titles; // Return the books ordered from latest to oldest
 }
+
 
 
 // Routes
@@ -124,7 +133,6 @@ app.get("/notes", async (req, res) => {
   }
 });
 
-
 app.get("/create", (req, res) => {
   if (req.isAuthenticated()) {
     res.render("create.ejs");
@@ -149,15 +157,6 @@ app.get("/auth/google/index", passport.authenticate("google", {
   successRedirect: "/index",
   failureRedirect: "/login",
 }));
-
-app.get("/update", async (req, res) => {
-  if (req.isAuthenticated()) {
-    const booknote = await checkNotes();
-    res.render("update.ejs", { booknote: booknote });
-  } else {
-    res.redirect("/login");
-  }
-});
 
 app.post(
   "/login",
@@ -240,30 +239,33 @@ app.post("/editDetails", async (req, res) => {
   res.redirect("/notes");
 });
 
+app.post("/changePhoto", upload.single('profile'), async (req, res) => {
+  const profile = req.file.filename;
+  const id = req.body.updatedPhotoID;
 
-app.post('/changePhoto', upload.single('profile'), async (req, res) => {
-  try {
-    const { updatedPhotoID } = req.body; // The book ID
-    const profile = req.file.filename; // Uploaded file name
+  await db.query("UPDATE title SET profile = $1 WHERE id = $2",
+    [profile, id]
+  );
+  res.redirect("/notes");
+});
 
-    await db.query(
-      'UPDATE title SET profile = $1 WHERE id = $2',
-      [profile, updatedPhotoID]
-    );
-
-    res.redirect('back'); // Redirect back to the same page
-  } catch (error) {
-    console.error('Error updating cover photo:', error);
-    res.status(500).send('Internal Server Error');
+app.get("/update", async (req, res) => {
+  if (req.isAuthenticated()) {
+    const booknote = await checkNotes();
+    res.render("update.ejs", { booknote: booknote });
+  } else {
+    res.redirect("/login");
   }
 });
 
-
-app.post('/change', (req, res) => {
-  // Process the change request here
-  res.redirect('back'); // Redirects back to the same page
+app.post("/change", async (req, res) => {
+  const booknote = await checkNotes();
+  if (req.body.changePhoto === "change") {
+    res.render("update.ejs", { booknote: booknote });
+  } else {
+    res.redirect("/notes");
+  }
 });
-
 
 app.post("/updatePara", async (req, res) => {
   const item = req.body.updatedItemTitle;
