@@ -124,6 +124,7 @@ app.get("/notes", async (req, res) => {
   }
 });
 
+
 app.get("/create", (req, res) => {
   if (req.isAuthenticated()) {
     res.render("create.ejs");

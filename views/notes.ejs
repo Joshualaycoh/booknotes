@@ -120,59 +120,31 @@
         document.getElementById("input3" + note_id).hidden = false;
     }
 </script>
+
 <div class="modal fade" id="changePhotoModal" tabindex="-1" aria-labelledby="changePhotoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="changePhotoModalLabel">Change Book Cover</h5>
+                <h5 class="modal-title">Change Book Cover</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <form id="changePhotoForm" action="/changePhoto" method="post" enctype="multipart/form-data">
+                <% booknote.forEach(function(note, index) { %>
+                <% if (index === 0) { %>
+                <form action="/changePhoto" method="post" enctype="multipart/form-data">
                     <div class="mb-4">
-                        <img src="/images/<%= note.profile %>" alt="Cover Image" id="coverImg" class="img-fluid rounded" style="height: 400px; object-fit: cover;">
+                        <img src="/images/<%= note.profile %>" alt="avatar logo" id="coverImg" class="img-fluid rounded" style="height: 400px; object-fit: cover;">
                         <label for="profile-pic" class="btn btn-primary mt-3">Choose File</label>
-                        <input type="file" class="form-control d-none" name="profile" id="profile-pic" accept="image/jpg, image/png, image/jpeg" required>
+                        <input type="file" class="form-control d-none" name="profile" id="profile-pic" accept="image/jpg, image/png, image/jpeg">
                         <input type="hidden" name="updatedPhotoID" value="<%= note.id %>">
                     </div>
                     <button type="submit" class="btn btn-success">Save Photo</button>
                 </form>
+                <% } %>
+                <% }) %>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    document.getElementById("changePhotoForm").addEventListener("submit", async function (e) {
-        e.preventDefault(); // Prevent default form submission
-
-        const form = e.target;
-        const formData = new FormData(form);
-
-        try {
-            // Send the form data to the server via Fetch API
-            const response = await fetch(form.action, {
-                method: form.method,
-                body: formData,
-            });
-
-            if (response.ok) {
-                // Close the modal programmatically
-                const modal = bootstrap.Modal.getInstance(document.getElementById("changePhotoModal"));
-                modal.hide();
-
-                alert("Cover photo updated successfully!");
-                // Optionally reload part of the page here to show the updated cover
-                window.location.reload(); // Reloads the page to reflect changes
-            } else {
-                alert("Failed to update cover photo. Please try again.");
-            }
-        } catch (error) {
-            console.error("Error during form submission:", error);
-            alert("An error occurred. Please try again later.");
-        }
-    });
-</script>
-
 
 <%- include("partials/footer.ejs") %>
