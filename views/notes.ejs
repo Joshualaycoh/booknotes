@@ -118,7 +118,28 @@
         document.getElementById("input2" + note_id).hidden = false;
         document.getElementById("input3" + note_id).hidden = false;
     }
+
+    
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const fileInput = document.getElementById('profile-pic');
+      const coverImage = document.getElementById('coverImg');
+  
+      if (fileInput && coverImage) {
+        fileInput.addEventListener('change', function() {
+          const file = this.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              coverImage.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+    });
+  </script>
 
 <div class="modal fade" id="changePhotoModal" tabindex="-1" aria-labelledby="changePhotoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -132,7 +153,7 @@
                 <% if (index === 0) { %>
                 <form action="/changePhoto" method="post" enctype="multipart/form-data">
                     <div class="mb-4">
-                        <img src="/images/<%= note.profile %>" alt="avatar logo" id="coverImg" class="img-fluid rounded" style="height: 400px; object-fit: cover;">
+                        <img src="/images/default_cover.png" alt="Book Cover" id="coverImg" class="img-fluid rounded" style="height: 400px; object-fit: cover;">
                         <label for="profile-pic" class="btn btn-primary mt-3">Choose File</label>
                         <input type="file" class="form-control d-none" name="profile" id="profile-pic" accept="image/jpg, image/png, image/jpeg">
                         <input type="hidden" name="updatedPhotoID" value="<%= note.id %>">
@@ -145,5 +166,4 @@
         </div>
     </div>
 </div>
-
 <%- include("partials/footer.ejs") %>
