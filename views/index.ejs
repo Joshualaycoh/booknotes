@@ -5,8 +5,7 @@
         <% for(let note of titles) { %>
         <div class="col-lg-3 col-md-6 col-12 mb-4">
             <div class="card h-100 shadow-sm">
-                <img src="/images/<%= note.profile %>" alt="<%= note.book_title %>" class="card-img-top" style="height: 300px; object-fit: cover;">
-                <div class="card-body">
+                <img src="/images/<%= note.profile %>" alt="<%= note.book_title %>" class="card-img-top" style="height: 300px; object-fit: cover; object-position: top;">                <div class="card-body">
                     <h4 class="card-title"><%= note.book_title %></h4>
                     <small class="text-muted d-block mb-2">Rating: <strong><%= note.rating %></strong>/10</small>
                     <p class="card-text text-muted" style="font-size: 0.9rem; line-height: 1.5; max-height: 80px; overflow: hidden; text-overflow: ellipsis;"><%= note.overview %></p>
