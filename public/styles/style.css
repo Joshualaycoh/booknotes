@@ -43,6 +43,3 @@
     box-shadow: none; /* Remove focus outline */
 }
 
-.rounded {
-    mix-blend-mode: color-burn;
-}
