@@ -153,7 +153,7 @@
                 <% if (index === 0) { %>
                 <form action="/changePhoto" method="post" enctype="multipart/form-data">
                     <div class="mb-4">
-                        <img src="/images/dfault.avif" alt="Book Cover" id="coverImg" class="img-fluid rounded" style="width: 350px; height: 400px; object-fit: cover;">
+                        <img src="/images/dfault.avif" alt="Book Cover" id="coverImg" class="img-fluid rounded" style="width: 400px; height: 400px; object-fit: cover;">
                         <label for="profile-pic" class="btn btn-primary mt-3">Choose File</label>
                         <input type="file" class="form-control d-none" name="profile" id="profile-pic" accept="image/jpg, image/png, image/jpeg">
                         <input type="hidden" name="updatedPhotoID" value="<%= note.id %>">
