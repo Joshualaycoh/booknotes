@@ -249,12 +249,7 @@ app.post("/changePhoto", upload.single('profile'), async (req, res) => {
 //     res.redirect("/login");
 //   }
 // });
-app.post("/change", async (req, res) => {
-  const booknote = await checkNotes();
-  
-    res.redirect("/notes");
-  
-});
+
 
 // app.post("/change", async (req, res) => {
 //   const booknote = await checkNotes();
