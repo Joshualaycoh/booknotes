@@ -11,7 +11,7 @@ import multer from "multer";
 import path from "path";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const saltRounds = 12;
 env.config();
 
@@ -330,7 +330,8 @@ passport.use(
 passport.use("google", new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://booknotes-mhqt.onrender.com/auth/google/index",
+  callbackURL: "https://your-railway-app.up.railway.app/auth/google/index",
+
 }, async (accessToken, refreshToken, profile, cb) => {
   try {
     console.log(profile);
@@ -378,3 +379,4 @@ app.use(errHandler);
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
