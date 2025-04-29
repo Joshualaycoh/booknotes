@@ -330,7 +330,8 @@ passport.use(
 passport.use("google", new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://your-railway-app.up.railway.app/auth/google/callback",
+  callbackURL: "https://web-production-9c99.up.railway.app/auth/google/callback",
+
   
 
 }, async (accessToken, refreshToken, profile, cb) => {
