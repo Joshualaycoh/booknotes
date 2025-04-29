@@ -16,7 +16,7 @@ const saltRounds = 12;
 env.config();
 
 const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL, 
   ssl: {
     rejectUnauthorized: false, // Necessary for Render's SSL
   },
@@ -330,7 +330,8 @@ passport.use(
 passport.use("google", new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://your-railway-app.up.railway.app/auth/google/index",
+  callbackURL: "https://your-railway-app.up.railway.app/auth/google/callback",
+  
 
 }, async (accessToken, refreshToken, profile, cb) => {
   try {
